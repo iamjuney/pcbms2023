@@ -43,7 +43,7 @@ const submit = () => {
 
                 <TextInput
                     id="login"
-                    type="login"
+                    type="text"
                     class="mt-1 block w-full"
                     v-model="form.login"
                     required

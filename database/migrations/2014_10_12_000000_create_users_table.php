@@ -12,11 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->id('userid');
+            $table->foreignId('empid')->constrained('personnels', 'empid')->onDelete('cascade');
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('role', ['manager', 'cashier', 'personnel'])->default('personnel');
             $table->rememberToken();
             $table->timestamps();
         });

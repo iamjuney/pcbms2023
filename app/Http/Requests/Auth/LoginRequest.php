@@ -13,6 +13,7 @@ class LoginRequest extends FormRequest
 {
     protected $loginField;
     protected $loginValue;
+
     /**
      * Prepare the data for validation.
      *
@@ -49,6 +50,7 @@ class LoginRequest extends FormRequest
             'username' =>
             'required_without:email|string|exists:users,username',
             'password' => 'required|string',
+            'role' => 'required|in:manager,cashier,personnel',
         ];
     }
 
@@ -62,7 +64,7 @@ class LoginRequest extends FormRequest
         $this->ensureIsNotRateLimited();
 
         if (!Auth::attempt(
-            $this->only($this->loginField, 'password'),
+            $this->only($this->loginField, 'password', 'role'),
             $this->boolean('remember')
         )) {
             RateLimiter::hit($this->throttleKey());

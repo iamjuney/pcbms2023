@@ -25,9 +25,23 @@ use Inertia\Inertia;
 //     ]);
 // });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+
+    Route::get('/orders', function () {
+        return Inertia::render('Orders');
+    })->name('orders');
+
+    Route::get('/suppliers', function () {
+        return Inertia::render('Suppliers');
+    })->name('suppliers');
+
+    Route::get('/products', function () {
+        return Inertia::render('Products');
+    })->name('products');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

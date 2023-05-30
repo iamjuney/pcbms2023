@@ -1,4 +1,5 @@
 <script setup>
+import NavLink from "@/Components/NavLink.vue";
 import { Icon } from "@iconify/vue";
 import { Link } from "@inertiajs/vue3";
 import { ref } from "vue";
@@ -27,34 +28,33 @@ const showingUserDropdown = ref(false);
                             <div class="hidden lg:ml-10 lg:block">
                                 <div class="flex space-x-4">
                                     <!-- Current: "bg-primary text-white", Default: "text-white hover:bg-indigo-500 hover:bg-opacity-75" -->
-                                    <a
-                                        href="#"
-                                        class="rounded-md bg-white px-3 py-2 text-sm font-medium text-gray-700"
-                                        aria-current="page"
+                                    <NavLink
+                                        :href="route('dashboard')"
+                                        :active="route().current('dashboard')"
                                     >
                                         Dashboard
-                                    </a>
+                                    </NavLink>
 
-                                    <a
-                                        href="#"
-                                        class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-white hover:bg-opacity-75 hover:text-gray-700"
+                                    <NavLink
+                                        :href="route('orders')"
+                                        :active="route().current('orders')"
                                     >
                                         Orders
-                                    </a>
+                                    </NavLink>
 
-                                    <a
-                                        href="#"
-                                        class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-white hover:bg-opacity-75 hover:text-gray-700"
+                                    <NavLink
+                                        :href="route('suppliers')"
+                                        :active="route().current('suppliers')"
                                     >
                                         Suppliers
-                                    </a>
+                                    </NavLink>
 
-                                    <a
-                                        href="#"
-                                        class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-white hover:bg-opacity-75 hover:text-gray-700"
+                                    <NavLink
+                                        :href="route('products')"
+                                        :active="route().current('products')"
                                     >
                                         Products
-                                    </a>
+                                    </NavLink>
                                 </div>
                             </div>
                         </div>

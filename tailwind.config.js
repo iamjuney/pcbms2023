@@ -8,6 +8,8 @@ export default {
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
         "./resources/js/**/*.vue",
+        "./node_modules/**/*.js",
+        "./node_modules/**/*.ts",
     ],
 
     theme: {
@@ -16,7 +18,9 @@ export default {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                primary: "#065601",
+                primary: "#00483C",
+                secondary: "#F3F3E7",
+                tertiary: "#E7DBC5",
             },
         },
     },

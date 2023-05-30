@@ -105,11 +105,14 @@ const submit = () => {
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
                             <Checkbox
+                                id="remember"
                                 name="remember"
                                 v-model:checked="form.remember"
                             />
-                            <span class="ml-2 text-sm text-gray-600"
-                                >Remember me</span
+                            <label
+                                for="remember"
+                                class="ml-2 text-sm font-medium text-gray-700"
+                                >Remember me</label
                             >
                         </div>
 

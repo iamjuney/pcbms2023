@@ -1,127 +1,348 @@
 <script setup>
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { Icon } from "@iconify/vue";
+import { Link } from "@inertiajs/vue3";
+import { ref } from "vue";
 
-const showingNavigationDropdown = ref(false);
+const showingUserDropdown = ref(false);
 </script>
 
 <template>
-    <div>
-        <div class="min-h-screen bg-gray-100">
-            <nav class="bg-white border-b border-gray-100">
-                <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between h-16">
-                        <div class="flex">
-                            <!-- Logo -->
-                            <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
-                                <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800" />
-                                </Link>
+    <div class="min-h-screen">
+        <div class="bg-primary pb-16">
+            <nav
+                class="border-b border-indigo-300 border-opacity-25 bg-primary lg:border-none"
+            >
+                <div class="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
+                    <div
+                        class="relative flex h-16 items-center justify-between lg:border-b lg:border-indigo-400 lg:border-opacity-25"
+                    >
+                        <div class="flex items-center px-2 lg:px-0">
+                            <div class="flex-shrink-0">
+                                <img
+                                    class="block h-8"
+                                    src="images/vsulogo.ico"
+                                    alt="VSU Logo"
+                                />
                             </div>
+                            <div class="hidden lg:ml-10 lg:block">
+                                <div class="flex space-x-4">
+                                    <!-- Current: "bg-primary text-white", Default: "text-white hover:bg-indigo-500 hover:bg-opacity-75" -->
+                                    <a
+                                        href="#"
+                                        class="rounded-md bg-white px-3 py-2 text-sm font-medium text-gray-700"
+                                        aria-current="page"
+                                    >
+                                        Dashboard
+                                    </a>
 
-                            <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
-                                </NavLink>
+                                    <a
+                                        href="#"
+                                        class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-white hover:bg-opacity-75 hover:text-gray-700"
+                                    >
+                                        Orders
+                                    </a>
+
+                                    <a
+                                        href="#"
+                                        class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-white hover:bg-opacity-75 hover:text-gray-700"
+                                    >
+                                        Suppliers
+                                    </a>
+
+                                    <a
+                                        href="#"
+                                        class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-white hover:bg-opacity-75 hover:text-gray-700"
+                                    >
+                                        Products
+                                    </a>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="hidden sm:flex sm:items-center sm:ml-6">
-                            <!-- Settings Dropdown -->
-                            <div class="ml-3 relative">
-                                <Dropdown align="right" width="48">
-                                    <template #trigger>
-                                        <span class="inline-flex rounded-md">
-                                            <button type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                                {{ $page.props.auth.user.name }}
-
-                                                <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clip-rule="evenodd" />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </template>
-
-                                    <template #content>
-                                        <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
-                                        <DropdownLink :href="route('logout')" method="post" as="button">
-                                            Log Out
-                                        </DropdownLink>
-                                    </template>
-                                </Dropdown>
+                        <div
+                            class="flex flex-1 justify-center px-2 lg:ml-6 lg:justify-end"
+                        >
+                            <div class="w-full max-w-lg lg:max-w-xs">
+                                <label for="search" class="sr-only"
+                                    >Search</label
+                                >
+                                <div
+                                    class="relative text-gray-400 focus-within:text-primary"
+                                >
+                                    <div
+                                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+                                    >
+                                        <Icon
+                                            icon="fluent:search-24-regular"
+                                            class="text-600 h-5 w-5"
+                                        />
+                                    </div>
+                                    <input
+                                        id="search"
+                                        class="block w-full rounded-md border border-transparent bg-white py-2 pl-10 pr-3 leading-5 text-gray-900 placeholder-gray-500 focus:border-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary sm:text-sm"
+                                        placeholder="Search"
+                                        type="search"
+                                        name="search"
+                                    />
+                                </div>
                             </div>
                         </div>
+                        <div class="flex lg:hidden">
+                            <!-- Mobile menu button -->
+                            <button
+                                type="button"
+                                class="inline-flex items-center justify-center rounded-md bg-white p-2 text-indigo-200 hover:bg-indigo-500 hover:bg-opacity-75 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-white"
+                                aria-controls="mobile-menu"
+                                aria-expanded="false"
+                            >
+                                <span class="sr-only">Open main menu</span>
+                                <!--
+                Heroicon name: outline/menu
 
-                        <!-- Hamburger -->
-                        <div class="-mr-2 flex items-center sm:hidden">
-                            <button @click="showingNavigationDropdown = !showingNavigationDropdown"
-                                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                    <path :class="{
-                                        hidden: showingNavigationDropdown,
-                                        'inline-flex': !showingNavigationDropdown,
-                                    }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 6h16M4 12h16M4 18h16" />
-                                    <path :class="{
-                                        hidden: !showingNavigationDropdown,
-                                        'inline-flex': showingNavigationDropdown,
-                                    }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12" />
+                Menu open: "hidden", Menu closed: "block"
+              -->
+                                <svg
+                                    class="block h-6 w-6"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M4 6h16M4 12h16M4 18h16"
+                                    />
+                                </svg>
+                                <!--
+                Heroicon name: outline/x
+
+                Menu open: "block", Menu closed: "hidden"
+              -->
+                                <svg
+                                    class="hidden h-6 w-6"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
                                 </svg>
                             </button>
+                        </div>
+                        <div class="hidden lg:ml-4 lg:block">
+                            <div class="flex items-center">
+                                <button
+                                    type="button"
+                                    class="flex-shrink-0 rounded-full bg-white p-1 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary"
+                                >
+                                    <span class="sr-only"
+                                        >View notifications</span
+                                    >
+                                    <Icon
+                                        icon="fluent:alert-24-regular"
+                                        class="h-6 w-6 text-primary/70 hover:text-primary"
+                                    />
+                                </button>
+
+                                <!-- Profile dropdown -->
+                                <div class="relative ml-3 flex-shrink-0">
+                                    <div>
+                                        <button
+                                            @click="
+                                                showingUserDropdown =
+                                                    !showingUserDropdown
+                                            "
+                                            type="button"
+                                            class="flex rounded-full bg-white text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary"
+                                            id="user-menu-button"
+                                            aria-expanded="false"
+                                            aria-haspopup="true"
+                                        >
+                                            <span class="sr-only"
+                                                >Open user menu</span
+                                            >
+                                            <img
+                                                class="h-8 w-8 rounded-full"
+                                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                                alt=""
+                                            />
+                                        </button>
+                                    </div>
+                                    <div
+                                        :class="{
+                                            hidden: !showingUserDropdown,
+                                        }"
+                                        class="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                        role="menu"
+                                        aria-orientation="vertical"
+                                        aria-labelledby="user-menu-button"
+                                        tabindex="-1"
+                                    >
+                                        <!-- Active: "bg-gray-100", Not Active: "" -->
+                                        <a
+                                            href="#"
+                                            class="block px-4 py-2 text-sm text-gray-700"
+                                            role="menuitem"
+                                            tabindex="-1"
+                                            id="user-menu-item-0"
+                                        >
+                                            Your Profile
+                                        </a>
+
+                                        <a
+                                            href="#"
+                                            class="block px-4 py-2 text-sm text-gray-700"
+                                            role="menuitem"
+                                            tabindex="-1"
+                                            id="user-menu-item-1"
+                                        >
+                                            Settings
+                                        </a>
+
+                                        <Link
+                                            :href="route('logout')"
+                                            method="post"
+                                            class="block px-4 py-2 text-sm text-gray-700"
+                                            role="menuitem"
+                                            tabindex="-1"
+                                            id="user-menu-item-2"
+                                        >
+                                            Sign out
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Responsive Navigation Menu -->
-                <div :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }" class="sm:hidden">
-                    <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                <!-- Mobile menu, show/hide based on menu state. -->
+                <div class="lg:hidden" id="mobile-menu">
+                    <div class="space-y-1 px-2 pb-3 pt-2">
+                        <!-- Current: "bg-primary text-white", Default: "text-white hover:bg-indigo-500 hover:bg-opacity-75" -->
+                        <a
+                            href="#"
+                            class="block rounded-md bg-primary px-3 py-2 text-base font-medium text-white"
+                            aria-current="page"
+                        >
                             Dashboard
-                        </ResponsiveNavLink>
+                        </a>
+
+                        <a
+                            href="#"
+                            class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-indigo-500 hover:bg-opacity-75"
+                        >
+                            Team
+                        </a>
+
+                        <a
+                            href="#"
+                            class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-indigo-500 hover:bg-opacity-75"
+                        >
+                            Projects
+                        </a>
+
+                        <a
+                            href="#"
+                            class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-indigo-500 hover:bg-opacity-75"
+                        >
+                            Calendar
+                        </a>
+
+                        <a
+                            href="#"
+                            class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-indigo-500 hover:bg-opacity-75"
+                        >
+                            Reports
+                        </a>
                     </div>
-
-                    <!-- Responsive Settings Options -->
-                    <div class="pt-4 pb-1 border-t border-gray-200">
-                        <div class="px-4">
-                            <div class="font-medium text-base text-gray-800">
-                                {{ $page.props.auth.user.name }}
+                    <div class="border-t border-primary pb-3 pt-4">
+                        <div class="flex items-center px-5">
+                            <div class="flex-shrink-0">
+                                <img
+                                    class="h-10 w-10 rounded-full"
+                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                    alt=""
+                                />
                             </div>
-                            <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
+                            <div class="ml-3">
+                                <div class="text-base font-medium text-white">
+                                    Tom Cook
+                                </div>
+                                <div
+                                    class="text-sm font-medium text-indigo-300"
+                                >
+                                    tom@example.com
+                                </div>
+                            </div>
+                            <button
+                                type="button"
+                                class="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-white"
+                            >
+                                <span class="sr-only">View notifications</span>
+                                <!-- Heroicon name: outline/bell -->
+                                <svg
+                                    class="h-6 w-6"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                                    />
+                                </svg>
+                            </button>
                         </div>
+                        <div class="mt-3 space-y-1 px-2">
+                            <a
+                                href="#"
+                                class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-indigo-500 hover:bg-opacity-75"
+                            >
+                                Your Profile
+                            </a>
 
-                        <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
-                            <ResponsiveNavLink :href="route('logout')" method="post" as="button">
-                                Log Out
-                            </ResponsiveNavLink>
+                            <a
+                                href="#"
+                                class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-indigo-500 hover:bg-opacity-75"
+                            >
+                                Settings
+                            </a>
+
+                            <Link
+                                :href="route('logout')"
+                                class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-indigo-500 hover:bg-opacity-75"
+                            >
+                                Sign out
+                            </Link>
                         </div>
                     </div>
                 </div>
             </nav>
-
-            <!-- Page Heading -->
-            <header class="bg-white shadow" v-if="$slots.header">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <slot name="header" />
+            <header class="py-10">
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <slot name="header"></slot>
                 </div>
             </header>
-
-            <!-- Page Content -->
-            <main>
-                <slot />
-            </main>
         </div>
+
+        <main class="-mt-16">
+            <div class="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+                <!-- content -->
+                <slot />
+            </div>
+        </main>
     </div>
 </template>

@@ -9,7 +9,6 @@ This is a demo web project implementing a Business Management System using Larav
 -   [Installation](#installation)
 -   [Usage](#usage)
 -   [Contributing](#contributing)
--   [License](#license)
 
 ## Project Description
 
@@ -93,7 +92,3 @@ Contributions to this project are welcome. To contribute, follow these steps:
 3. Make the necessary changes and commit them.
 4. Push your changes to your forked repository.
 5. Submit a pull request describing your changes.
-
-## License
-
-This project is licensed under the `MIT License`. Feel free to use and modify the code as per the license terms.

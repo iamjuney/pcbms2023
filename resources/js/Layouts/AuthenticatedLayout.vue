@@ -27,7 +27,6 @@ const showingUserDropdown = ref(false);
                             </div>
                             <div class="hidden lg:ml-10 lg:block">
                                 <div class="flex space-x-4">
-                                    <!-- Current: "bg-primary text-white", Default: "text-white hover:bg-indigo-500 hover:bg-opacity-75" -->
                                     <NavLink
                                         :href="route('dashboard')"
                                         :active="route().current('dashboard')"
@@ -162,9 +161,6 @@ const showingUserDropdown = ref(false);
                                             "
                                             type="button"
                                             class="flex rounded-full bg-white text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary"
-                                            id="user-menu-button"
-                                            aria-expanded="false"
-                                            aria-haspopup="true"
                                         >
                                             <span class="sr-only"
                                                 >Open user menu</span
@@ -180,16 +176,39 @@ const showingUserDropdown = ref(false);
                                         :class="{
                                             hidden: !showingUserDropdown,
                                         }"
-                                        class="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                                        role="menu"
-                                        aria-orientation="vertical"
-                                        aria-labelledby="user-menu-button"
-                                        tabindex="-1"
+                                        @click.outside="
+                                            showingUserDropdown = false
+                                        "
+                                        class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                     >
+                                        <div
+                                            class="px-4 py-2 text-sm font-normal"
+                                        >
+                                            <div
+                                                class="flex flex-col space-y-1"
+                                            >
+                                                <p
+                                                    class="text-sm font-medium leading-none text-gray-700"
+                                                >
+                                                    Aljon Lerios
+                                                </p>
+                                                <p
+                                                    class="text-xs leading-none text-gray-500"
+                                                >
+                                                    manager
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            role="separator"
+                                            aria-orientation="horizontal"
+                                            class="my-1 h-px bg-gray-200"
+                                        ></div>
+
                                         <!-- Active: "bg-gray-100", Not Active: "" -->
                                         <a
                                             href="#"
-                                            class="block px-4 py-2 text-sm text-gray-700"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                             role="menuitem"
                                             tabindex="-1"
                                             id="user-menu-item-0"
@@ -199,7 +218,7 @@ const showingUserDropdown = ref(false);
 
                                         <a
                                             href="#"
-                                            class="block px-4 py-2 text-sm text-gray-700"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                             role="menuitem"
                                             tabindex="-1"
                                             id="user-menu-item-1"
@@ -210,10 +229,11 @@ const showingUserDropdown = ref(false);
                                         <Link
                                             :href="route('logout')"
                                             method="post"
-                                            class="block px-4 py-2 text-sm text-gray-700"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                             role="menuitem"
                                             tabindex="-1"
                                             id="user-menu-item-2"
+                                            as="button"
                                         >
                                             Sign out
                                         </Link>
@@ -324,6 +344,7 @@ const showingUserDropdown = ref(false);
                             <Link
                                 :href="route('logout')"
                                 class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-indigo-500 hover:bg-opacity-75"
+                                as="button"
                             >
                                 Sign out
                             </Link>

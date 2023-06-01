@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,7 +26,7 @@ use Inertia\Inertia;
 //     ]);
 // });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
@@ -34,9 +35,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Orders');
     })->name('orders');
 
-    Route::get('/suppliers', function () {
-        return Inertia::render('Suppliers');
-    })->name('suppliers');
+    Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers');
+    Route::post('/suppliers', [SupplierController::class, 'store'])->name('suppliers.store');
+    Route::patch('/suppliers/{supp_id}', [SupplierController::class, 'update'])->name('suppliers.update');
+    Route::delete('/suppliers/{supp_id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
 
     Route::get('/products', function () {
         return Inertia::render('Products');

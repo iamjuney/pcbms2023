@@ -8,4 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class Personnel extends Model
 {
     use HasFactory;
+
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'empid';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'fname',
+        'mname',
+        'lname',
+    ];
 }

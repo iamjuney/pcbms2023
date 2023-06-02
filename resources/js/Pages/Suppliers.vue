@@ -8,7 +8,7 @@ import {
     TransitionRoot,
 } from "@headlessui/vue";
 import { Icon } from "@iconify/vue";
-import { Head, useForm } from "@inertiajs/vue3";
+import { Head, Link, useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
 
 const isOpen = ref(false);
@@ -249,7 +249,8 @@ const deleteSupplier = (id) => {
                                                         type="submit"
                                                         class="inline-flex justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                                                     >
-                                                        Save
+                                                        <span>Save</span>
+                                                        <!-- <span>Cancel</span> -->
                                                     </button>
                                                 </div>
                                             </form>
@@ -337,24 +338,25 @@ const deleteSupplier = (id) => {
                                     <td
                                         class="flex flex-row space-x-2 whitespace-nowrap px-6 py-4 text-right text-sm font-medium"
                                     >
-                                        <a
-                                            href="#"
-                                            class="text-red-600 hover:text-red-900"
-                                            >Edit</a
+                                        <Link
+                                            :href="
+                                                route(
+                                                    'suppliers.edit',
+                                                    supplier.supp_id
+                                                )
+                                            "
+                                            class="text-primary/80 hover:text-primary"
                                         >
+                                            Edit
+                                        </Link>
                                         <form
                                             @submit.prevent="
                                                 deleteSupplier(supplier.supp_id)
                                             "
                                         >
-                                            <!-- <input
-                                                type="hidden"
-                                                name="supp_id"
-                                                :value="supplier.supp_id"
-                                            /> -->
                                             <button
                                                 type="submit"
-                                                class="text-primary/80 hover:text-primary"
+                                                class="text-red-700 hover:text-red-900"
                                             >
                                                 Delete
                                             </button>

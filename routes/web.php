@@ -38,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers');
     Route::post('/suppliers', [SupplierController::class, 'store'])->name('suppliers.store');
     Route::patch('/suppliers/{supp_id}', [SupplierController::class, 'update'])->name('suppliers.update');
+    Route::get('/suppliers/{supp_id}', [SupplierController::class, 'edit'])->name('suppliers.edit');
     Route::delete('/suppliers/{supp_id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
 
     Route::get('/products', function () {

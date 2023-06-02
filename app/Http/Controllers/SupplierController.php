@@ -44,11 +44,11 @@ class SupplierController extends Controller
         }
     }
 
-    public function update(Request $request): RedirectResponse
+    public function update(SupplierCreateRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
-        $supplier = Supplier::find($request->supp_id);
+        $supplier = Supplier::find($request->route('supp_id'));
 
         $supplier->company = $validated['company'];
         $supplier->contact_person = $validated['contact_person'];
@@ -59,6 +59,15 @@ class SupplierController extends Controller
         $supplier->save();
 
         return to_route('suppliers');
+    }
+
+    public function edit(Request $request): Response
+    {
+        $supplier = Supplier::find($request->route('supp_id'));
+
+        return Inertia::render('SupplierEdit', [
+            'supplier' => $supplier
+        ]);
     }
 
     public function destroy(Request $request): RedirectResponse

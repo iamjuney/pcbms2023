@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SupplierController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -41,9 +41,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/suppliers/{supp_id}', [SupplierController::class, 'edit'])->name('suppliers.edit');
     Route::delete('/suppliers/{supp_id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
 
-    Route::get('/products', function () {
-        return Inertia::render('Products');
-    })->name('products');
+    Route::get('/products', [ProductController::class, 'index'])->name('products');
+    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+    Route::patch('/products/{prod_id}', [ProductController::class, 'update'])->name('products.update');
+    Route::get('/products/{prod_id}', [ProductController::class, 'edit'])->name('products.edit');
+    Route::delete('/products/{prod_id}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
 
 Route::middleware('auth')->group(function () {

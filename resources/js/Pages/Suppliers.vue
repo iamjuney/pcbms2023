@@ -48,9 +48,9 @@ const submit = () => {
     });
 };
 
-const deleteSupplier = (id) => {
+const deleteSupplier = (supp_id) => {
     if (confirm("Are you sure you want to delete this supplier?")) {
-        deleteForm.delete(route("suppliers.destroy", id));
+        deleteForm.delete(route("suppliers.destroy", supp_id));
     }
 };
 </script>
@@ -249,8 +249,7 @@ const deleteSupplier = (id) => {
                                                         type="submit"
                                                         class="inline-flex justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                                                     >
-                                                        <span>Save</span>
-                                                        <!-- <span>Cancel</span> -->
+                                                        Save
                                                     </button>
                                                 </div>
                                             </form>
@@ -264,7 +263,7 @@ const deleteSupplier = (id) => {
             </div>
         </template>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col shadow-lg">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div
                     class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8"
@@ -288,7 +287,7 @@ const deleteSupplier = (id) => {
                                         Contact Person
                                     </th>
                                     <th scope="col" class="relative px-6 py-3">
-                                        <span class="sr-only">Edit</span>
+                                        <span class="sr-only">Actions</span>
                                     </th>
                                 </tr>
                             </thead>

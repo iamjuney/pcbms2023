@@ -23,7 +23,8 @@ const submit = () => {
 };
 </script>
 <template>
-    <Head title="Suppliers" />
+    <Head title="Edit Supplier" />
+
     <AuthenticatedLayout>
         <template #header>
             <div class="md:flex md:items-center md:justify-between">
@@ -32,7 +33,8 @@ const submit = () => {
                 </div>
             </div>
         </template>
-        <div class="rounded-lg bg-white px-5 py-6 shadow sm:px-6">
+
+        <div class="rounded-lg bg-white px-5 py-6 shadow-lg sm:px-6">
             <form
                 class="space-y-8 divide-y divide-gray-200"
                 @submit.prevent="submit()"
@@ -46,8 +48,7 @@ const submit = () => {
                                 Supplier Information
                             </h3>
                             <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                                Use a permanent address where you can receive
-                                mail.
+                                Personal details and application.
                             </p>
                         </div>
                         <div class="space-y-6 sm:space-y-5">

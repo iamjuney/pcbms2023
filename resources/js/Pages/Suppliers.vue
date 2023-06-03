@@ -70,7 +70,7 @@ const deleteSupplier = (supp_id) => {
                         class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                     >
                         <div class="flex flex-row space-x-2 text-primary">
-                            <span>Add New</span
+                            <span>Add New Supplier</span
                             ><Icon
                                 icon="fluent:add-circle-24-regular"
                                 class="h-5 w-5"

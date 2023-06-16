@@ -56,13 +56,13 @@ const form = useForm({
 // };
 </script>
 <template>
-    <Head title="Products" />
+    <Head title="Orders" />
 
     <AuthenticatedLayout>
         <template v-slot:header>
             <div class="md:flex md:items-center md:justify-between">
                 <div class="min-w-0">
-                    <h1 class="text-3xl font-bold text-white">Products</h1>
+                    <h1 class="text-3xl font-bold text-white">Orders</h1>
                 </div>
                 <div class="mt-4 flex md:ml-4 md:mt-0">
                     <button
@@ -302,7 +302,30 @@ const form = useForm({
                                         <div
                                             class="text-md font-medium text-gray-900"
                                         >
-                                            {{ order.status }}
+                                            <span
+                                                v-if="
+                                                    order.status == 'Received'
+                                                "
+                                                class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800"
+                                            >
+                                                {{ order.status }}
+                                            </span>
+                                            <span
+                                                v-else-if="
+                                                    order.status == 'Pending'
+                                                "
+                                                class="inline-flex rounded-full bg-yellow-100 px-2 text-xs font-semibold leading-5 text-yellow-800"
+                                            >
+                                                {{ order.status }}
+                                            </span>
+                                            <span
+                                                v-else-if="
+                                                    order.status == 'Cancelled'
+                                                "
+                                                class="inline-flex rounded-full bg-red-100 px-2 text-xs font-semibold leading-5 text-red-800"
+                                            >
+                                                {{ order.status }}
+                                            </span>
                                         </div>
                                     </td>
                                     <td

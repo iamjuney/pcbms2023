@@ -83,12 +83,6 @@ npm run dev
 
 The application provides a web-based interface for managing various aspects of the business. To access the different features, you need to register an account or log in if you already have one. Once logged in, you can navigate through the different sections of the application using the provided navigation menu.
 
-## Contributing
+## Screenshot
 
-Contributions to this project are welcome. To contribute, follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Make the necessary changes and commit them.
-4. Push your changes to your forked repository.
-5. Submit a pull request describing your changes.
+![Screenshot](screenshots/login.png)

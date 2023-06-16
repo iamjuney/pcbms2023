@@ -53,31 +53,42 @@ npm install
 cp .env.example .env
 ```
 
-5. Generate a new application key:
+5. Create a new database for the application and update the .env file with the database credentials:
+
+```shell
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=lerios_pcbms_2023
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+6. Generate a new application key:
 
 ```shell
 php artisan key:generate
 ```
 
-6. Run the database migrations:
+7. Run the database migrations:
 
 ```shell
 php artisan migrate --seed
 ```
 
-7. Start the development server:
+8. Start the development server:
 
 ```shell
 php artisan serve
 ```
 
-8. Compile the frontend assets:
+9. Compile the frontend assets:
 
 ```shell
 npm run dev
 ```
 
-9. Visit `http://localhost:8000` in your browser to access the application.
+10. Visit `http://localhost:8000` in your browser to access the application.
 
 ## Usage
 

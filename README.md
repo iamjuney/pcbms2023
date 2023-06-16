@@ -85,4 +85,4 @@ The application provides a web-based interface for managing various aspects of t
 
 ## Screenshot
 
-![Screenshot](screenshots/login.png)
+![Screenshot](screenshots/login.jpeg)

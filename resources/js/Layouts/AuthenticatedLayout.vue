@@ -8,14 +8,14 @@ const showingUserDropdown = ref(false);
 </script>
 
 <template>
-    <div class="min-h-screen">
-        <div class="bg-primary pb-16">
+    <div class="custom-bg min-h-screen">
+        <div class="pb-16">
             <nav
-                class="border-b border-indigo-300 border-opacity-25 bg-primary lg:border-none"
+                class="border-b border-indigo-300 border-opacity-25 bg-transparent lg:border-none"
             >
                 <div class="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
                     <div
-                        class="relative flex h-16 items-center justify-between lg:border-b lg:border-indigo-400 lg:border-opacity-25"
+                        class="relative flex h-16 items-center justify-between lg:border-b lg:border-white lg:border-opacity-25"
                     >
                         <div class="flex items-center px-2 lg:px-0">
                             <div class="flex-shrink-0">
@@ -367,3 +367,15 @@ const showingUserDropdown = ref(false);
         </main>
     </div>
 </template>
+
+<style>
+.custom-bg {
+    background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.2) 0%,
+            rgba(0, 0, 0, 0.4) 100%
+        ),
+        url(images/searchfortruth.jpg);
+    background-size: cover;
+}
+</style>

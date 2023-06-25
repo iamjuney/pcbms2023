@@ -153,7 +153,8 @@ const deleteProduct = (prod_id) => {
                                                             for="shelf_life"
                                                             class="block text-sm font-medium text-gray-700"
                                                         >
-                                                            Shelf Life
+                                                            Shelf Life (days
+                                                            before expiry)
                                                         </label>
                                                         <input
                                                             type="number"
@@ -210,7 +211,8 @@ const deleteProduct = (prod_id) => {
                                                             for="appreciation"
                                                             class="block text-sm font-medium text-gray-700"
                                                         >
-                                                            Appreciation
+                                                            Appreciation in
+                                                            percent
                                                         </label>
 
                                                         <input

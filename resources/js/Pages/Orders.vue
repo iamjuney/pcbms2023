@@ -4,12 +4,17 @@ import {
     Dialog,
     DialogPanel,
     DialogTitle,
+    Listbox,
+    ListboxButton,
+    ListboxLabel,
+    ListboxOption,
+    ListboxOptions,
     TransitionChild,
     TransitionRoot,
 } from "@headlessui/vue";
 import { Icon } from "@iconify/vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { defineProps, ref } from "vue";
 
 const isOpen = ref(false);
 
@@ -21,39 +26,42 @@ function openModal() {
     isOpen.value = true;
 }
 
-defineProps({
+const props = defineProps({
     orders: Object,
+    suppliers: Object,
+    products: Object,
     message: String,
 });
 
+const selectedSupplier = ref(props.suppliers[0]);
+const selectedProduct = ref(props.products[0]);
+
 const form = useForm({
-    or_id: 1,
-    supp_id: 1,
+    supp_id: selectedSupplier.value.supp_id,
     userid: 1,
-    order_date: "",
     status: "Pending",
-    item_id: 1,
+    item_id: selectedProduct.value.prod_id,
     quantity: 1,
 });
 
-// const deleteForm = useForm({
-//     product_id: "",
-// });
+const deleteForm = useForm({
+    or_id: "",
+});
 
-// const submit = () => {
-//     form.post(route("products.store"), {
-//         onFinish: () => {
-//             form.reset("name", "price", "description");
-//             closeModal();
-//         },
-//     });
-// };
+const submit = () => {
+    form.post(route("orders.store"), {
+        onFinish: () => {
+            form.reset("quantity");
+            closeModal();
+        },
+    });
+};
 
-// const deleteProduct = (prod_id) => {
-//     if (confirm("Are you sure you want to delete this product?")) {
-//         deleteForm.delete(route("products.destroy", prod_id));
-//     }
-// };
+const deleteOrder = (or_id) => {
+    if (confirm("Are you sure you want to delete this order?")) {
+        deleteForm.delete(route("orders.destroy", or_id));
+    }
+};
 </script>
 <template>
     <Head title="Orders" />
@@ -71,7 +79,7 @@ const form = useForm({
                         class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                     >
                         <div class="flex flex-row space-x-2 text-primary">
-                            <span>Add New Product</span>
+                            <span>Add New Order</span>
                             <Icon
                                 icon="fluent:add-circle-24-regular"
                                 class="h-5 w-5"
@@ -111,7 +119,7 @@ const form = useForm({
                                         leave-to="opacity-0 scale-95"
                                     >
                                         <DialogPanel
-                                            class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+                                            class="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
                                         >
                                             <DialogTitle
                                                 as="h3"
@@ -121,28 +129,230 @@ const form = useForm({
                                             </DialogTitle>
 
                                             <form
-                                                @submit.prevent=""
+                                                @submit.prevent="submit"
                                                 class="mt-8"
                                             >
                                                 <div
                                                     class="grid grid-cols-6 gap-6"
                                                 >
+                                                    <Listbox
+                                                        as="div"
+                                                        class="col-span-6 sm:col-span-6"
+                                                        v-model="
+                                                            selectedSupplier
+                                                        "
+                                                    >
+                                                        <ListboxLabel
+                                                            class="block text-sm font-medium text-gray-700"
+                                                        >
+                                                            Supplier
+                                                        </ListboxLabel>
+                                                        <div
+                                                            class="relative mt-1"
+                                                        >
+                                                            <ListboxButton
+                                                                class="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                                                            >
+                                                                <span
+                                                                    class="block truncate"
+                                                                    >{{
+                                                                        selectedSupplier.company
+                                                                    }}</span
+                                                                >
+                                                                <span
+                                                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+                                                                >
+                                                                    <Icon
+                                                                        icon="fluent:chevron-up-down-24-regular"
+                                                                        class="h-5 w-5 text-gray-400"
+                                                                    />
+                                                                </span>
+                                                            </ListboxButton>
+
+                                                            <transition
+                                                                leave-active-class="transition ease-in duration-100"
+                                                                leave-from-class="opacity-100"
+                                                                leave-to-class="opacity-0"
+                                                            >
+                                                                <ListboxOptions
+                                                                    class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                                                                >
+                                                                    <ListboxOption
+                                                                        as="template"
+                                                                        v-for="supplier in suppliers"
+                                                                        :key="
+                                                                            supplier.supp_id
+                                                                        "
+                                                                        :value="
+                                                                            supplier
+                                                                        "
+                                                                        v-slot="{
+                                                                            active,
+                                                                            selectedSupplier,
+                                                                        }"
+                                                                    >
+                                                                        <li
+                                                                            :class="[
+                                                                                active
+                                                                                    ? 'bg-indigo-600 text-white'
+                                                                                    : 'text-gray-900',
+                                                                                'relative cursor-default select-none py-2 pl-3 pr-9',
+                                                                            ]"
+                                                                        >
+                                                                            <span
+                                                                                :class="[
+                                                                                    selectedSupplier
+                                                                                        ? 'font-semibold'
+                                                                                        : 'font-normal',
+                                                                                    'block truncate',
+                                                                                ]"
+                                                                            >
+                                                                                {{
+                                                                                    supplier.company
+                                                                                }}
+                                                                            </span>
+
+                                                                            <span
+                                                                                v-if="
+                                                                                    selectedSupplier
+                                                                                "
+                                                                                :class="[
+                                                                                    active
+                                                                                        ? 'text-white'
+                                                                                        : 'text-indigo-600',
+                                                                                    'absolute inset-y-0 right-0 flex items-center pr-4',
+                                                                                ]"
+                                                                            >
+                                                                                <Icon
+                                                                                    icon="fluent:checkmark-24-regular"
+                                                                                    class="h-5 w-5"
+                                                                                />
+                                                                            </span>
+                                                                        </li>
+                                                                    </ListboxOption>
+                                                                </ListboxOptions>
+                                                            </transition>
+                                                        </div>
+                                                    </Listbox>
+
+                                                    <Listbox
+                                                        as="div"
+                                                        class="col-span-6 sm:col-span-6"
+                                                        v-model="
+                                                            selectedProduct
+                                                        "
+                                                    >
+                                                        <ListboxLabel
+                                                            class="block text-sm font-medium text-gray-700"
+                                                        >
+                                                            Product
+                                                        </ListboxLabel>
+                                                        <div
+                                                            class="relative mt-1"
+                                                        >
+                                                            <ListboxButton
+                                                                class="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                                                            >
+                                                                <span
+                                                                    class="block truncate"
+                                                                    >{{
+                                                                        selectedProduct.prod_name
+                                                                    }}</span
+                                                                >
+                                                                <span
+                                                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+                                                                >
+                                                                    <Icon
+                                                                        icon="fluent:chevron-up-down-24-regular"
+                                                                        class="h-5 w-5 text-gray-400"
+                                                                    />
+                                                                </span>
+                                                            </ListboxButton>
+
+                                                            <transition
+                                                                leave-active-class="transition ease-in duration-100"
+                                                                leave-from-class="opacity-100"
+                                                                leave-to-class="opacity-0"
+                                                            >
+                                                                <ListboxOptions
+                                                                    class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                                                                >
+                                                                    <ListboxOption
+                                                                        as="template"
+                                                                        v-for="product in products"
+                                                                        :key="
+                                                                            product.prod_id
+                                                                        "
+                                                                        :value="
+                                                                            product
+                                                                        "
+                                                                        v-slot="{
+                                                                            active,
+                                                                            selectedProduct,
+                                                                        }"
+                                                                    >
+                                                                        <li
+                                                                            :class="[
+                                                                                active
+                                                                                    ? 'bg-indigo-600 text-white'
+                                                                                    : 'text-gray-900',
+                                                                                'relative cursor-default select-none py-2 pl-3 pr-9',
+                                                                            ]"
+                                                                        >
+                                                                            <span
+                                                                                :class="[
+                                                                                    selectedProduct
+                                                                                        ? 'font-semibold'
+                                                                                        : 'font-normal',
+                                                                                    'block truncate',
+                                                                                ]"
+                                                                            >
+                                                                                {{
+                                                                                    product.prod_name
+                                                                                }}
+                                                                            </span>
+
+                                                                            <span
+                                                                                v-if="
+                                                                                    selectedProduct
+                                                                                "
+                                                                                :class="[
+                                                                                    active
+                                                                                        ? 'text-white'
+                                                                                        : 'text-indigo-600',
+                                                                                    'absolute inset-y-0 right-0 flex items-center pr-4',
+                                                                                ]"
+                                                                            >
+                                                                                <Icon
+                                                                                    icon="fluent:checkmark-24-regular"
+                                                                                    class="h-5 w-5"
+                                                                                />
+                                                                            </span>
+                                                                        </li>
+                                                                    </ListboxOption>
+                                                                </ListboxOptions>
+                                                            </transition>
+                                                        </div>
+                                                    </Listbox>
+
                                                     <div
                                                         class="col-span-6 sm:col-span-6"
                                                     >
                                                         <label
-                                                            for="prod_name"
+                                                            for="quantity"
                                                             class="block text-sm font-medium text-gray-700"
                                                         >
-                                                            Product Name
+                                                            Quantity
                                                         </label>
                                                         <input
                                                             type="number"
-                                                            name="prod_name"
-                                                            id="prod_name"
+                                                            name="quantity"
+                                                            id="quantity"
                                                             required
-                                                            autocomplete="prod_name"
-                                                            v-model="form.or_id"
+                                                            autocomplete="quantity"
+                                                            v-model="
+                                                                form.quantity
+                                                            "
                                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
                                                         />
                                                     </div>
@@ -221,7 +431,7 @@ const form = useForm({
                             <tbody class="divide-y divide-gray-200 bg-white">
                                 <tr v-for="order in orders" :key="order.or_id">
                                     <td
-                                        class="max-w-xs whitespace-nowrap px-6 py-4"
+                                        class="max-w-[16rem] whitespace-nowrap px-6 py-4"
                                     >
                                         <div
                                             class="text-md font-medium text-gray-900"
@@ -260,27 +470,14 @@ const form = useForm({
                                         </div>
                                     </td>
                                     <td class="whitespace-nowrap px-6 py-4">
-                                        <div class="flex items-center">
+                                        <div class="flex flex-col items-start">
                                             <div
-                                                class="h-10 w-10 flex-shrink-0"
+                                                class="text-sm font-medium text-gray-900"
                                             >
-                                                <img
-                                                    class="h-10 w-10 rounded-full"
-                                                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
-                                                    alt=""
-                                                />
+                                                {{ order.prod_name }}
                                             </div>
-                                            <div class="ml-4">
-                                                <div
-                                                    class="text-sm font-medium text-gray-900"
-                                                >
-                                                    {{ order.prod_name }}
-                                                </div>
-                                                <div
-                                                    class="text-sm text-gray-500"
-                                                >
-                                                    {{ order.unit }}
-                                                </div>
+                                            <div class="text-sm text-gray-500">
+                                                {{ order.unit }}
                                             </div>
                                         </div>
                                     </td>
@@ -337,7 +534,11 @@ const form = useForm({
                                         >
                                             Edit
                                         </Link>
-                                        <form>
+                                        <form
+                                            @submit.prevent="
+                                                deleteOrder(order.or_id)
+                                            "
+                                        >
                                             <button
                                                 type="submit"
                                                 class="text-red-700 hover:text-red-900"

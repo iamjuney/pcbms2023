@@ -24,6 +24,8 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
 
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::delete('/orders/{order_id}', [OrderController::class, 'destroy'])->name('orders.destroy');
 
     Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers');
     Route::post('/suppliers', [SupplierController::class, 'store'])->name('suppliers.store');

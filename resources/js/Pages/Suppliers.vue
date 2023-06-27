@@ -8,10 +8,28 @@ import {
     TransitionRoot,
 } from "@headlessui/vue";
 import { Icon } from "@iconify/vue";
-import { Head, Link, useForm } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { Head, useForm } from "@inertiajs/vue3";
+import { defineProps, ref } from "vue";
+
+const props = defineProps({
+    suppliers: Object,
+    message: {
+        type: String,
+    },
+});
 
 const isOpen = ref(false);
+const isEditModalOpen = ref(false);
+const selectedSupplier = ref(props.suppliers[0]);
+
+function closeEditModal() {
+    isEditModalOpen.value = false;
+}
+
+function openEditModal(supplier) {
+    selectedSupplier.value = supplier;
+    isEditModalOpen.value = true;
+}
 
 function closeModal() {
     isOpen.value = false;
@@ -20,19 +38,20 @@ function openModal() {
     isOpen.value = true;
 }
 
-defineProps({
-    suppliers: Object,
-    message: {
-        type: String,
-    },
-});
-
 const form = useForm({
     company: "",
     contact_person: "",
     sex: "Male",
     address: "",
     phone: "",
+});
+
+const editForm = useForm({
+    company: selectedSupplier.value.company,
+    contact_person: selectedSupplier.value.contact_person,
+    sex: selectedSupplier.value.sex,
+    address: selectedSupplier.value.address,
+    phone: selectedSupplier.value.phone,
 });
 
 const deleteForm = useForm({
@@ -46,6 +65,11 @@ const submit = () => {
             closeModal();
         },
     });
+};
+
+const updateSupplier = () => {
+    editForm.patch(route("suppliers.update", selectedSupplier.value.supp_id));
+    closeEditModal();
 };
 
 const deleteSupplier = (supp_id) => {
@@ -111,13 +135,19 @@ const deleteSupplier = (supp_id) => {
                                         leave-to="opacity-0 scale-95"
                                     >
                                         <DialogPanel
-                                            class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+                                            class="w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
                                         >
                                             <DialogTitle
                                                 as="h3"
                                                 class="text-lg font-medium leading-6 text-gray-900"
                                             >
                                                 Supplier Information
+                                                <p
+                                                    class="mt-1 max-w-2xl text-sm text-gray-500"
+                                                >
+                                                    Please fill out the
+                                                    information below.
+                                                </p>
                                             </DialogTitle>
 
                                             <form
@@ -125,129 +155,160 @@ const deleteSupplier = (supp_id) => {
                                                 class="mt-8"
                                             >
                                                 <div
-                                                    class="grid grid-cols-6 gap-6"
+                                                    class="space-y-8 divide-y divide-gray-200 sm:space-y-5"
                                                 >
                                                     <div
-                                                        class="col-span-6 sm:col-span-6"
+                                                        class="space-y-6 sm:space-y-5"
                                                     >
-                                                        <label
-                                                            for="company"
-                                                            class="block text-sm font-medium text-gray-700"
+                                                        <div
+                                                            class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
                                                         >
-                                                            Company Name
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            name="company"
-                                                            id="company"
-                                                            required
-                                                            autocomplete="company"
-                                                            v-model="
-                                                                form.company
-                                                            "
-                                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                                                        />
-                                                    </div>
-
-                                                    <div
-                                                        class="col-span-6 sm:col-span-6"
-                                                    >
-                                                        <label
-                                                            for="contact_person"
-                                                            class="block text-sm font-medium text-gray-700"
-                                                        >
-                                                            Contact Person
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            name="contact_person"
-                                                            id="contact_person"
-                                                            required
-                                                            v-model="
-                                                                form.contact_person
-                                                            "
-                                                            autocomplete="contact_person"
-                                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                                                        />
-                                                    </div>
-
-                                                    <div
-                                                        class="col-span-6 sm:col-span-3"
-                                                    >
-                                                        <label
-                                                            for="sex"
-                                                            class="block text-sm font-medium text-gray-700"
-                                                        >
-                                                            Sex
-                                                        </label>
-                                                        <select
-                                                            id="sex"
-                                                            name="sex"
-                                                            required
-                                                            v-model="form.sex"
-                                                            autocomplete="sex"
-                                                            class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
-                                                        >
-                                                            <option
-                                                                value="Male"
+                                                            <label
+                                                                for="company"
+                                                                class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                                                             >
-                                                                Male
-                                                            </option>
-                                                            <option
-                                                                value="Female"
+                                                                Company
+                                                            </label>
+                                                            <div
+                                                                class="mt-1 sm:col-span-2 sm:mt-0"
                                                             >
-                                                                Female
-                                                            </option>
-                                                            <option
-                                                                value="Non-binary"
+                                                                <input
+                                                                    v-model="
+                                                                        form.company
+                                                                    "
+                                                                    type="text"
+                                                                    name="company"
+                                                                    id="company"
+                                                                    class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-primary/80 focus:ring-primary/80 sm:max-w-xs sm:text-sm"
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        <div
+                                                            class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+                                                        >
+                                                            <label
+                                                                for="contact-person"
+                                                                class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                                                             >
-                                                                Non-binary
-                                                            </option>
-                                                        </select>
-                                                    </div>
+                                                                Contact Person
+                                                            </label>
+                                                            <div
+                                                                class="mt-1 sm:col-span-2 sm:mt-0"
+                                                            >
+                                                                <input
+                                                                    v-model="
+                                                                        form.contact_person
+                                                                    "
+                                                                    type="text"
+                                                                    name="contact_person"
+                                                                    id="contact_person"
+                                                                    class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-primary/80 focus:ring-primary/80 sm:max-w-xs sm:text-sm"
+                                                                />
+                                                            </div>
+                                                        </div>
 
-                                                    <div class="col-span-6">
-                                                        <label
-                                                            for="address"
-                                                            class="block text-sm font-medium text-gray-700"
+                                                        <div
+                                                            class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
                                                         >
-                                                            Address
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            name="address"
-                                                            id="address"
-                                                            required
-                                                            v-model="
-                                                                form.address
-                                                            "
-                                                            autocomplete="address"
-                                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                                                        />
-                                                    </div>
+                                                            <label
+                                                                for="sex"
+                                                                class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                                                            >
+                                                                Sex
+                                                            </label>
+                                                            <div
+                                                                class="mt-1 sm:col-span-1 sm:mt-0"
+                                                            >
+                                                                <select
+                                                                    v-model="
+                                                                        form.sex
+                                                                    "
+                                                                    id="sex"
+                                                                    name="sex"
+                                                                    class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-primary/80 focus:ring-primary/80 sm:max-w-xs sm:text-sm"
+                                                                >
+                                                                    <option
+                                                                        value="Male"
+                                                                    >
+                                                                        Male
+                                                                    </option>
+                                                                    <option
+                                                                        value="Female"
+                                                                    >
+                                                                        Female
+                                                                    </option>
+                                                                    <option
+                                                                        value="Non-binary"
+                                                                    >
+                                                                        Non-binary
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
 
-                                                    <div class="col-span-6">
-                                                        <label
-                                                            for="phone"
-                                                            class="block text-sm font-medium text-gray-700"
+                                                        <div
+                                                            class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
                                                         >
-                                                            Contact Number
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            name="phone"
-                                                            id="phone"
-                                                            required
-                                                            v-model="form.phone"
-                                                            autocomplete="phone"
-                                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                                                        />
+                                                            <label
+                                                                for="address"
+                                                                class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                                                            >
+                                                                Address
+                                                            </label>
+                                                            <div
+                                                                class="mt-1 sm:col-span-2 sm:mt-0"
+                                                            >
+                                                                <input
+                                                                    v-model="
+                                                                        form.address
+                                                                    "
+                                                                    type="text"
+                                                                    name="address"
+                                                                    id="address"
+                                                                    class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-primary/80 focus:ring-primary/80 sm:text-sm"
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        <div
+                                                            class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+                                                        >
+                                                            <label
+                                                                for="phone"
+                                                                class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                                                            >
+                                                                Phone
+                                                            </label>
+                                                            <div
+                                                                class="mt-1 sm:col-span-2 sm:mt-0"
+                                                            >
+                                                                <input
+                                                                    v-model="
+                                                                        form.phone
+                                                                    "
+                                                                    type="text"
+                                                                    name="phone"
+                                                                    id="phone"
+                                                                    class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-primary/80 focus:ring-primary/80 sm:max-w-xs sm:text-sm"
+                                                                />
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="pt-8 text-right">
+                                                <div
+                                                    class="mt-4 pt-8 text-right sm:border-t sm:border-gray-200"
+                                                >
+                                                    <button
+                                                        type="button"
+                                                        @click="closeModal"
+                                                        class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary/80 focus:ring-offset-2"
+                                                    >
+                                                        Cancel
+                                                    </button>
                                                     <button
                                                         type="submit"
-                                                        class="inline-flex justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                                                        class="ml-2 inline-flex justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                                                     >
                                                         Save
                                                     </button>
@@ -337,17 +398,13 @@ const deleteSupplier = (supp_id) => {
                                     <td
                                         class="flex flex-row space-x-2 whitespace-nowrap px-6 py-4 text-right text-sm font-medium"
                                     >
-                                        <Link
-                                            :href="
-                                                route(
-                                                    'suppliers.edit',
-                                                    supplier.supp_id
-                                                )
-                                            "
+                                        <button
+                                            type="button"
+                                            @click="openEditModal(supplier)"
                                             class="text-primary/80 hover:text-primary"
                                         >
                                             Edit
-                                        </Link>
+                                        </button>
                                         <form
                                             @submit.prevent="
                                                 deleteSupplier(supplier.supp_id)
@@ -362,13 +419,214 @@ const deleteSupplier = (supp_id) => {
                                         </form>
                                     </td>
                                 </tr>
-
-                                <!-- More people... -->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+
+        <TransitionRoot appear :show="isEditModalOpen" as="template">
+            <Dialog as="div" @close="closeEditModal" class="relative z-10">
+                <TransitionChild
+                    as="template"
+                    enter="duration-300 ease-out"
+                    enter-from="opacity-0"
+                    enter-to="opacity-100"
+                    leave="duration-200 ease-in"
+                    leave-from="opacity-100"
+                    leave-to="opacity-0"
+                >
+                    <div class="fixed inset-0 bg-black bg-opacity-25" />
+                </TransitionChild>
+
+                <div class="fixed inset-0 overflow-y-auto">
+                    <div
+                        class="flex min-h-full items-center justify-center p-4 text-center"
+                    >
+                        <TransitionChild
+                            as="template"
+                            enter="duration-300 ease-out"
+                            enter-from="opacity-0 scale-95"
+                            enter-to="opacity-100 scale-100"
+                            leave="duration-200 ease-in"
+                            leave-from="opacity-100 scale-100"
+                            leave-to="opacity-0 scale-95"
+                        >
+                            <DialogPanel
+                                class="w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+                            >
+                                <DialogTitle
+                                    as="h3"
+                                    class="text-lg font-medium leading-6 text-gray-900"
+                                >
+                                    Update Supplier Information
+                                    <p
+                                        class="mt-1 max-w-2xl text-sm text-gray-500"
+                                    >
+                                        Please fill out the information below.
+                                    </p>
+                                </DialogTitle>
+
+                                <form
+                                    @submit.prevent="updateSupplier"
+                                    class="mt-8"
+                                >
+                                    <div
+                                        class="space-y-8 divide-y divide-gray-200 sm:space-y-5"
+                                    >
+                                        <div class="space-y-6 sm:space-y-5">
+                                            <div
+                                                class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+                                            >
+                                                <label
+                                                    for="company"
+                                                    class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                                                >
+                                                    Company
+                                                </label>
+                                                <div
+                                                    class="mt-1 sm:col-span-2 sm:mt-0"
+                                                >
+                                                    <input
+                                                        v-model="
+                                                            editForm.company
+                                                        "
+                                                        type="text"
+                                                        name="company"
+                                                        id="company"
+                                                        class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-primary/80 focus:ring-primary/80 sm:max-w-xs sm:text-sm"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+                                            >
+                                                <label
+                                                    for="contact-person"
+                                                    class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                                                >
+                                                    Contact Person
+                                                </label>
+                                                <div
+                                                    class="mt-1 sm:col-span-2 sm:mt-0"
+                                                >
+                                                    <input
+                                                        v-model="
+                                                            editForm.contact_person
+                                                        "
+                                                        type="text"
+                                                        name="contact_person"
+                                                        id="contact_person"
+                                                        class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-primary/80 focus:ring-primary/80 sm:max-w-xs sm:text-sm"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+                                            >
+                                                <label
+                                                    for="sex"
+                                                    class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                                                >
+                                                    Sex
+                                                </label>
+                                                <div
+                                                    class="mt-1 sm:col-span-1 sm:mt-0"
+                                                >
+                                                    <select
+                                                        v-model="editForm.sex"
+                                                        id="sex"
+                                                        name="sex"
+                                                        class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-primary/80 focus:ring-primary/80 sm:max-w-xs sm:text-sm"
+                                                    >
+                                                        <option value="Male">
+                                                            Male
+                                                        </option>
+                                                        <option value="Female">
+                                                            Female
+                                                        </option>
+                                                        <option
+                                                            value="Non-binary"
+                                                        >
+                                                            Non-binary
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+                                            >
+                                                <label
+                                                    for="address"
+                                                    class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                                                >
+                                                    Address
+                                                </label>
+                                                <div
+                                                    class="mt-1 sm:col-span-2 sm:mt-0"
+                                                >
+                                                    <input
+                                                        v-model="
+                                                            editForm.address
+                                                        "
+                                                        type="text"
+                                                        name="address"
+                                                        id="address"
+                                                        class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-primary/80 focus:ring-primary/80 sm:text-sm"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5"
+                                            >
+                                                <label
+                                                    for="phone"
+                                                    class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                                                >
+                                                    Phone
+                                                </label>
+                                                <div
+                                                    class="mt-1 sm:col-span-2 sm:mt-0"
+                                                >
+                                                    <input
+                                                        v-model="editForm.phone"
+                                                        type="text"
+                                                        name="phone"
+                                                        id="phone"
+                                                        class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-primary/80 focus:ring-primary/80 sm:max-w-xs sm:text-sm"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="mt-4 pt-8 text-right sm:border-t sm:border-gray-200"
+                                    >
+                                        <button
+                                            type="button"
+                                            @click="closeEditModal"
+                                            class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary/80 focus:ring-offset-2"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            class="ml-2 inline-flex justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                                        >
+                                            Save
+                                        </button>
+                                    </div>
+                                </form>
+                            </DialogPanel>
+                        </TransitionChild>
+                    </div>
+                </div>
+            </Dialog>
+        </TransitionRoot>
     </AuthenticatedLayout>
 </template>

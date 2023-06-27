@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('shelf_life')->unsigned();
             $table->enum('unit', ['piece', 'pack', 'bottle', 'bag'])->default('piece');
             $table->decimal('appreciation', 7, 2);
+            $table->integer('max_lvl')->unsigned();
             $table->timestamps();
         });
     }

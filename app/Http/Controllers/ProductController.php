@@ -14,7 +14,7 @@ class ProductController extends Controller
 {
     public function index(): Response
     {
-        $products = Product::select(['prod_id', 'prod_name', 'shelf_life', 'unit', 'appreciation', 'created_at', 'updated_at'])->get();
+        $products = Product::select(['prod_id', 'prod_name', 'shelf_life', 'unit', 'appreciation', 'max_lvl', 'created_at', 'updated_at'])->get();
 
         return Inertia::render('Products', [
             'products' => $products
@@ -30,6 +30,7 @@ class ProductController extends Controller
             'shelf_life' => $validated['shelf_life'],
             'unit' => $validated['unit'],
             'appreciation' => $validated['appreciation'],
+            'max_lvl' => $validated['max_lvl']
         ]);
 
         if ($product) {
@@ -53,19 +54,11 @@ class ProductController extends Controller
         $product->shelf_life = $validated['shelf_life'];
         $product->unit = $validated['unit'];
         $product->appreciation = $validated['appreciation'];
+        $product->max_lvl = $validated['max_lvl'];
 
         $product->save();
 
         return to_route('products');
-    }
-
-    public function edit(Request $request): Response
-    {
-        $product = Product::find($request->route('prod_id'));
-
-        return Inertia::render('ProductEdit', [
-            'product' => $product
-        ]);
     }
 
     public function destroy(Request $request): RedirectResponse

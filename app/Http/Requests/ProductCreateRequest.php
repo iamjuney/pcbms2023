@@ -25,7 +25,8 @@ class ProductCreateRequest extends FormRequest
             'prod_name' => 'required|string|max:50',
             'shelf_life' => 'required|integer|min:0',
             'unit' => 'required|in:piece,pack,bottle,bag',
-            'appreciation' => 'required|numeric|between:0,999999.99',
+            'appreciation' => 'required|numeric|between:0,99.99',
+            'max_lvl' => 'required|integer|min:0',
         ];
     }
 }

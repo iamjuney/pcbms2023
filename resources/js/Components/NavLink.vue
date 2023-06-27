@@ -14,8 +14,8 @@ const props = defineProps({
 
 const classes = computed(() =>
     props.active
-        ? "rounded-md bg-white px-3 py-2 text-sm font-medium text-gray-700"
-        : "rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-white hover:bg-opacity-75 hover:text-gray-700"
+        ? "rounded-md bg-white px-3 py-2 text-sm font-medium text-primary"
+        : "rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-white hover:bg-opacity-75 hover:text-primary"
 );
 </script>
 

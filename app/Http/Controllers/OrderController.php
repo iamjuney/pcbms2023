@@ -23,6 +23,9 @@ class OrderController extends Controller
             ->join('users', 'orders.userid', '=', 'users.userid')
             ->select([
                 'orders.or_id',
+                'order_details.item_id',
+                'suppliers.supp_id',
+                'users.userid',
                 'order_details.item_no',
                 'suppliers.company',
                 'suppliers.address',
@@ -83,6 +86,43 @@ class OrderController extends Controller
             // Order creation failed
             throw ValidationException::withMessages([
                 'message' => 'Order creation failed'
+            ]);
+        }
+    }
+
+    public function update(Request $request): RedirectResponse
+    {
+        // dd($request->all());
+        $request->validate([
+            'supp_id' => 'required',
+            'userid' => 'required',
+            'status' => 'required',
+            'item_id' => 'required',
+            'quantity' => 'required',
+        ]);
+
+        $order = Order::find($request->or_id);
+
+        if ($order) {
+            $order->update([
+                'supp_id' => $request->supp_id,
+                'userid' => $request->userid,
+                'status' => $request->status,
+            ]);
+
+            $orderDetail = OrderDetail::where('order_id', $request->or_id)->first();
+
+            if ($orderDetail) {
+                $orderDetail->update([
+                    'item_id' => $request->item_id,
+                    'quantity' => $request->quantity,
+                ]);
+            }
+
+            return to_route('orders');
+        } else {
+            throw ValidationException::withMessages([
+                'message' => 'Order update failed'
             ]);
         }
     }

@@ -19,9 +19,10 @@ class ProductFactory extends Factory
     {
         return [
             'prod_name' => $this->faker->word,
-            'shelf_life' => $this->faker->randomNumber,
+            'shelf_life' => $this->faker->numberBetween(1, 50),
             'unit' => $this->faker->randomElement(Product::getAvailableUnits()),
-            'appreciation' => $this->faker->randomFloat(2, 0, 9999.99),
+            'appreciation' => $this->faker->randomFloat(2, 0, 99.99),
+            'max_lvl' => 50,
         ];
     }
 }

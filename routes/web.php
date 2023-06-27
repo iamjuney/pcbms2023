@@ -25,18 +25,17 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::patch('/orders/{order_id}', [OrderController::class, 'update'])->name('orders.update');
     Route::delete('/orders/{order_id}', [OrderController::class, 'destroy'])->name('orders.destroy');
 
     Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers');
     Route::post('/suppliers', [SupplierController::class, 'store'])->name('suppliers.store');
     Route::patch('/suppliers/{supp_id}', [SupplierController::class, 'update'])->name('suppliers.update');
-    Route::get('/suppliers/{supp_id}', [SupplierController::class, 'edit'])->name('suppliers.edit');
     Route::delete('/suppliers/{supp_id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
 
     Route::get('/products', [ProductController::class, 'index'])->name('products');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
     Route::patch('/products/{prod_id}', [ProductController::class, 'update'])->name('products.update');
-    Route::get('/products/{prod_id}', [ProductController::class, 'edit'])->name('products.edit');
     Route::delete('/products/{prod_id}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
 

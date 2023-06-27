@@ -16,10 +16,12 @@ class Product extends Model
         'shelf_life',
         'unit',
         'appreciation',
+        'max_lvl'
     ];
 
     protected $casts = [
         'shelf_life' => 'integer',
+        'max_lvl' => 'integer',
         'appreciation' => 'decimal:2',
     ];
 

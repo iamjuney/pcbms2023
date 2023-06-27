@@ -61,15 +61,6 @@ class SupplierController extends Controller
         return to_route('suppliers');
     }
 
-    public function edit(Request $request): Response
-    {
-        $supplier = Supplier::find($request->route('supp_id'));
-
-        return Inertia::render('SupplierEdit', [
-            'supplier' => $supplier
-        ]);
-    }
-
     public function destroy(Request $request): RedirectResponse
     {
         $supplier = Supplier::find($request->route('supp_id'));

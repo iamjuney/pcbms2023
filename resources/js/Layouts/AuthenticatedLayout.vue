@@ -1,10 +1,53 @@
 <script setup>
 import NavLink from "@/Components/NavLink.vue";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import { Icon } from "@iconify/vue";
 import { Link } from "@inertiajs/vue3";
 import { ref } from "vue";
 
 const showingUserDropdown = ref(false);
+
+const inventory_management = [
+    {
+        name: "Suppliers",
+        description: "Manage suppliers and vendor information",
+        href: route("suppliers"),
+        icon: "fluent:vehicle-truck-profile-24-regular",
+    },
+    {
+        name: "Consigned Inventory",
+        description: "Track and manage inventory provided by consignment",
+        href: "#",
+        icon: "fluent:box-multiple-24-regular",
+    },
+    {
+        name: "Expired Items",
+        description: "View and handle expired or expiring items",
+        href: "#",
+        icon: "fluent:timer-24-regular",
+    },
+    {
+        name: "Products",
+        description: "Manage your product catalog",
+        href: route("products"),
+        icon: "fluent:box-24-regular",
+    },
+];
+
+const sales_and_orders = [
+    {
+        name: "Sales",
+        description: "Track and manage sales activities",
+        href: "#",
+        icon: "fluent:arrow-trending-lines-24-regular",
+    },
+    {
+        name: "Orders",
+        description: "Manage orders and fulfillment",
+        href: route("orders"),
+        icon: "fluent:clipboard-24-regular",
+    },
+];
 </script>
 
 <template>
@@ -21,7 +64,7 @@ const showingUserDropdown = ref(false);
                             <div class="flex-shrink-0">
                                 <img
                                     class="block h-8"
-                                    src="images/vsulogo.ico"
+                                    src="images/vsu-logo.png"
                                     alt="VSU Logo"
                                 />
                             </div>
@@ -34,26 +77,183 @@ const showingUserDropdown = ref(false);
                                         Dashboard
                                     </NavLink>
 
-                                    <NavLink
-                                        :href="route('orders')"
-                                        :active="route().current('orders')"
-                                    >
-                                        Orders
-                                    </NavLink>
+                                    <Popover v-slot="{ open }" class="relative">
+                                        <PopoverButton
+                                            :class="{
+                                                'bg-white px-3 py-2 text-sm font-medium text-primary':
+                                                    open ||
+                                                    route().current(
+                                                        'suppliers'
+                                                    ) ||
+                                                    route().current('products'),
+                                                'text-white text-opacity-90':
+                                                    !open &&
+                                                    !route().current(
+                                                        'suppliers'
+                                                    ) &&
+                                                    !route().current(
+                                                        'products'
+                                                    ),
+                                            }"
+                                            class="group inline-flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-white hover:text-primary"
+                                        >
+                                            <span>Inventory Management</span>
+                                            <Icon
+                                                :class="
+                                                    open
+                                                        ? ''
+                                                        : 'text-opacity-70'
+                                                "
+                                                icon="fluent:chevron-down-24-regular"
+                                                class="ml-2 h-5 w-5"
+                                            />
+                                        </PopoverButton>
 
-                                    <NavLink
-                                        :href="route('suppliers')"
-                                        :active="route().current('suppliers')"
-                                    >
-                                        Suppliers
-                                    </NavLink>
+                                        <transition
+                                            enter-active-class="transition duration-200 ease-out"
+                                            enter-from-class="translate-y-1 opacity-0"
+                                            enter-to-class="translate-y-0 opacity-100"
+                                            leave-active-class="transition duration-150 ease-in"
+                                            leave-from-class="translate-y-0 opacity-100"
+                                            leave-to-class="translate-y-1 opacity-0"
+                                        >
+                                            <PopoverPanel
+                                                class="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-sm"
+                                            >
+                                                <div
+                                                    class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5"
+                                                >
+                                                    <div
+                                                        class="relative grid gap-8 bg-white p-7 lg:grid-cols-1"
+                                                    >
+                                                        <Link
+                                                            v-for="item in inventory_management"
+                                                            :key="item.name"
+                                                            :href="item.href"
+                                                            class="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-primary/10"
+                                                        >
+                                                            <div
+                                                                class="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12"
+                                                            >
+                                                                <div
+                                                                    class="rounded-lg bg-primary/10 p-2"
+                                                                >
+                                                                    <Icon
+                                                                        :icon="
+                                                                            item.icon
+                                                                        "
+                                                                        class="h-8 w-8 text-primary"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div class="ml-4">
+                                                                <p
+                                                                    class="text-sm font-medium text-gray-900"
+                                                                >
+                                                                    {{
+                                                                        item.name
+                                                                    }}
+                                                                </p>
+                                                                <p
+                                                                    class="text-sm text-gray-500"
+                                                                >
+                                                                    {{
+                                                                        item.description
+                                                                    }}
+                                                                </p>
+                                                            </div>
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            </PopoverPanel>
+                                        </transition>
+                                    </Popover>
 
-                                    <NavLink
-                                        :href="route('products')"
-                                        :active="route().current('products')"
-                                    >
-                                        Products
-                                    </NavLink>
+                                    <Popover v-slot="{ open }" class="relative">
+                                        <PopoverButton
+                                            :class="{
+                                                'bg-white px-3 py-2 text-sm font-medium text-primary':
+                                                    open ||
+                                                    route().current('sales') ||
+                                                    route().current('orders'),
+                                                'text-white text-opacity-90':
+                                                    !open &&
+                                                    !route().current('sales') &&
+                                                    !route().current('orders'),
+                                            }"
+                                            class="group inline-flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-white hover:text-primary"
+                                        >
+                                            <span> Sales & Orders</span>
+                                            <Icon
+                                                :class="
+                                                    open
+                                                        ? ''
+                                                        : 'text-opacity-70'
+                                                "
+                                                icon="fluent:chevron-down-24-regular"
+                                                class="ml-2 h-5 w-5"
+                                            />
+                                        </PopoverButton>
+
+                                        <transition
+                                            enter-active-class="transition duration-200 ease-out"
+                                            enter-from-class="translate-y-1 opacity-0"
+                                            enter-to-class="translate-y-0 opacity-100"
+                                            leave-active-class="transition duration-150 ease-in"
+                                            leave-from-class="translate-y-0 opacity-100"
+                                            leave-to-class="translate-y-1 opacity-0"
+                                        >
+                                            <PopoverPanel
+                                                class="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-sm"
+                                            >
+                                                <div
+                                                    class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5"
+                                                >
+                                                    <div
+                                                        class="relative grid gap-8 bg-white p-7 lg:grid-cols-1"
+                                                    >
+                                                        <Link
+                                                            v-for="item in sales_and_orders"
+                                                            :key="item.name"
+                                                            :href="item.href"
+                                                            class="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-primary/10"
+                                                        >
+                                                            <div
+                                                                class="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12"
+                                                            >
+                                                                <div
+                                                                    class="rounded-lg bg-primary/10 p-2"
+                                                                >
+                                                                    <Icon
+                                                                        :icon="
+                                                                            item.icon
+                                                                        "
+                                                                        class="h-8 w-8 text-primary"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div class="ml-4">
+                                                                <p
+                                                                    class="text-sm font-medium text-gray-900"
+                                                                >
+                                                                    {{
+                                                                        item.name
+                                                                    }}
+                                                                </p>
+                                                                <p
+                                                                    class="text-sm text-gray-500"
+                                                                >
+                                                                    {{
+                                                                        item.description
+                                                                    }}
+                                                                </p>
+                                                            </div>
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            </PopoverPanel>
+                                        </transition>
+                                    </Popover>
                                 </div>
                             </div>
                         </div>
@@ -72,7 +272,7 @@ const showingUserDropdown = ref(false);
                                     >
                                         <Icon
                                             icon="fluent:search-24-regular"
-                                            class="text-600 h-5 w-5"
+                                            class="h-5 w-5 text-gray-600"
                                         />
                                     </div>
                                     <input
@@ -372,8 +572,8 @@ const showingUserDropdown = ref(false);
 .custom-bg {
     background: linear-gradient(
             to bottom,
-            rgba(0, 0, 0, 0.2) 0%,
-            rgba(0, 0, 0, 0.4) 100%
+            rgba(255, 255, 255, 0.2) 0%,
+            rgba(255, 255, 255, 0.2) 100%
         ),
         url(images/searchfortruth.jpg);
     background-size: cover;

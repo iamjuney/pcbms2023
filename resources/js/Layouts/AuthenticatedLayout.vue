@@ -17,7 +17,7 @@ const inventory_management = [
     {
         name: "Consigned Inventory",
         description: "Track and manage inventory provided by consignment",
-        href: "#",
+        href: route("consigned-inventory"),
         icon: "fluent:box-multiple-24-regular",
     },
     {
@@ -85,7 +85,12 @@ const sales_and_orders = [
                                                     route().current(
                                                         'suppliers'
                                                     ) ||
-                                                    route().current('products'),
+                                                    route().current(
+                                                        'products'
+                                                    ) ||
+                                                    route().current(
+                                                        'consigned-inventory'
+                                                    ),
                                                 'text-white text-opacity-90':
                                                     !open &&
                                                     !route().current(
@@ -93,6 +98,9 @@ const sales_and_orders = [
                                                     ) &&
                                                     !route().current(
                                                         'products'
+                                                    ) &&
+                                                    !route().current(
+                                                        'consigned-inventory'
                                                     ),
                                             }"
                                             class="group inline-flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-white hover:text-primary"

@@ -7,9 +7,9 @@ use App\Models\Supplier;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ConsignedProduct>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Expired>
  */
-class ConsignedProductFactory extends Factory
+class ExpiredFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,8 +20,8 @@ class ConsignedProductFactory extends Factory
     {
         return [
             'supp_id' => Supplier::factory(),
-            'userid' => 1,
-            'date_received' => $this->faker->date(),
+            'userid' => User::factory(),
+            'access_date' => $this->faker->date(),
         ];
     }
 }

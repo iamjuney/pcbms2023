@@ -6,6 +6,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\ConsignedProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,11 +24,6 @@ Route::middleware(['auth'])->group(function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::get('/orders', [OrderController::class, 'index'])->name('orders');
-    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
-    Route::patch('/orders/{order_id}', [OrderController::class, 'update'])->name('orders.update');
-    Route::delete('/orders/{order_id}', [OrderController::class, 'destroy'])->name('orders.destroy');
-
     Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers');
     Route::post('/suppliers', [SupplierController::class, 'store'])->name('suppliers.store');
     Route::patch('/suppliers/{supp_id}', [SupplierController::class, 'update'])->name('suppliers.update');
@@ -37,6 +33,16 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
     Route::patch('/products/{prod_id}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/{prod_id}', [ProductController::class, 'destroy'])->name('products.destroy');
+
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders');
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::patch('/orders/{order_id}', [OrderController::class, 'update'])->name('orders.update');
+    Route::delete('/orders/{order_id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+
+    Route::get('/consigned-inventory', [ConsignedProductController::class, 'index'])->name('consigned-inventory');
+    Route::post('/consigned-inventory', [ConsignedProductController::class, 'store'])->name('consigned-inventory.store');
+    Route::patch('/consigned-inventory/{item_id}', [ConsignedProductController::class, 'update'])->name('consigned-inventory.update');
+    Route::delete('/consigned-inventory/{item_id}', [ConsignedProductController::class, 'destroy'])->name('consigned-inventory.destroy');
 });
 
 Route::middleware('auth')->group(function () {

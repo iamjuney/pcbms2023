@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('consigned_products', function (Blueprint $table) {
-            $table->id('cp_id');
+        Schema::create('expired', function (Blueprint $table) {
+            $table->id('exp_id');
             $table->unsignedBigInteger('supp_id');
             $table->foreign('supp_id')->references('supp_id')->on('suppliers')->onDelete('no action');
             $table->unsignedBigInteger('userid');
             $table->foreign('userid')->references('userid')->on('users')->onDelete('no action');
-            $table->date('date_received')->format('Y-m-d');
+            $table->date('access_date');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('consigned_products');
+        Schema::dropIfExists('expired');
     }
 };

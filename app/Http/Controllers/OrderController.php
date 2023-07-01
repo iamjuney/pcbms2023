@@ -92,7 +92,6 @@ class OrderController extends Controller
 
     public function update(Request $request): RedirectResponse
     {
-        // dd($request->all());
         $request->validate([
             'supp_id' => 'required',
             'userid' => 'required',

@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Supplier;
+use App\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Expired>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Sale>
  */
-class ExpiredFactory extends Factory
+class SaleFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,9 +18,9 @@ class ExpiredFactory extends Factory
     public function definition(): array
     {
         return [
-            'supp_id' => Supplier::factory(),
+            'date_issued' => $this->faker->date(),
+            'cust_id' => Customer::factory(),
             'userid' => 1,
-            'access_date' => $this->faker->date(),
         ];
     }
 }

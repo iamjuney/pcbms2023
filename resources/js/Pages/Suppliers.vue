@@ -28,6 +28,14 @@ function closeEditModal() {
 
 function openEditModal(supplier) {
     selectedSupplier.value = supplier;
+
+    editForm.supp_id = supplier.supp_id;
+    editForm.company = supplier.company;
+    editForm.contact_person = supplier.contact_person;
+    editForm.sex = supplier.sex;
+    editForm.address = supplier.address;
+    editForm.phone = supplier.phone;
+
     isEditModalOpen.value = true;
 }
 
@@ -47,6 +55,7 @@ const form = useForm({
 });
 
 const editForm = useForm({
+    supp_id: selectedSupplier.value.supp_id,
     company: selectedSupplier.value.company,
     contact_person: selectedSupplier.value.contact_person,
     sex: selectedSupplier.value.sex,

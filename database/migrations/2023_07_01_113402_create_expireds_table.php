@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('expired', function (Blueprint $table) {
+        Schema::create('expireds', function (Blueprint $table) {
             $table->id('exp_id');
             $table->unsignedBigInteger('supp_id');
             $table->foreign('supp_id')->references('supp_id')->on('suppliers')->onDelete('no action');
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('expired');
+        Schema::dropIfExists('expireds');
     }
 };

@@ -2,9 +2,13 @@
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ExpiredController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ConsignedProductController;
 
@@ -43,6 +47,18 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/consigned-inventory', [ConsignedProductController::class, 'store'])->name('consigned-inventory.store');
     Route::patch('/consigned-inventory/{item_id}', [ConsignedProductController::class, 'update'])->name('consigned-inventory.update');
     Route::delete('/consigned-inventory/{item_id}', [ConsignedProductController::class, 'destroy'])->name('consigned-inventory.destroy');
+
+    Route::get('/expired-items', [ExpiredController::class, 'index'])->name('expired-items');
+
+    Route::get('/sales', [SaleController::class, 'index'])->name('sales');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/invoice', [InvoiceController::class, 'index'])->name('invoice');
+
+    Route::post('/invoice', [InvoiceController::class, 'store'])->name('sales.store');
+
+    Route::post('/customers', [CustomerController::class, 'store'])->name('customers.store');
 });
 
 Route::middleware('auth')->group(function () {

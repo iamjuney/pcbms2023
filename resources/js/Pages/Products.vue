@@ -1,11 +1,11 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {
-    Dialog,
-    DialogPanel,
-    DialogTitle,
-    TransitionChild,
-    TransitionRoot,
+Dialog,
+DialogPanel,
+DialogTitle,
+TransitionChild,
+TransitionRoot,
 } from "@headlessui/vue";
 import { Icon } from "@iconify/vue";
 import { Head, useForm } from "@inertiajs/vue3";
@@ -26,6 +26,14 @@ function closeEditModal() {
 
 function openEditModal(product) {
     selectedProduct.value = product;
+
+    editForm.prod_id = product.prod_id;
+    editForm.prod_name = product.prod_name;
+    editForm.shelf_life = product.shelf_life;
+    editForm.unit = product.unit;
+    editForm.appreciation = product.appreciation;
+    editForm.max_lvl = product.max_lvl;
+
     isEditModalOpen.value = true;
 }
 
@@ -46,6 +54,7 @@ const form = useForm({
 });
 
 const editForm = useForm({
+    prod_id: selectedProduct.value.prod_id,
     prod_name: selectedProduct.value.prod_name,
     shelf_life: selectedProduct.value.shelf_life,
     unit: selectedProduct.value.unit,

@@ -94,6 +94,13 @@ npm run dev
 
 The application provides a web-based interface for managing various aspects of the business. To access the different features, you need to register an account or log in if you already have one. Once logged in, you can navigate through the different sections of the application using the provided navigation menu.
 
+Credentials for the accounts are as follows:
+
+| Username | Password | Role    |
+| -------- | -------- | ------- |
+| manager  | password | Manager |
+| cashier  | password | Cashier |
+
 ## Screenshot
 
 ![Screenshot](screenshots/login.jpeg)

@@ -1,3 +1,5 @@
+![Screenshot](screenshots/login.jpeg)
+
 # Laravel Breeze Inertia Vue - Business Management System
 
 This is a demo web project implementing a Business Management System using Laravel 10, Laravel Breeze, Inertia.js, and Vue.js. The project was developed for the VSU Pasalubong Center as partial fulfillment for the requirements in CSci 136.
@@ -100,7 +102,3 @@ Credentials for the accounts are as follows:
 | -------- | -------- | ------- |
 | manager  | password | Manager |
 | cashier  | password | Cashier |
-
-## Screenshot
-
-![Screenshot](screenshots/login.jpeg)
